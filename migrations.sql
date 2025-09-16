@@ -1,0 +1,36 @@
+CREATE TABLE users (
+id INT PRIMARY KEY AUTO_INCREMENT,
+firstname VARCHAR(128) SET utf8mb4 COLLATE utf8mb4_bin,
+lastname VARCHAR(128) SET utf8mb4 COLLATE utf8mb4_bin,
+username VARCHAR(128),
+chatid VARCHAR(32) DEFAULT NULL,
+type VARCHAR(16) NOT NULL DEFAULT('user'),
+created_at TIMESTAMP NOT NULL DEFAULT NOW()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tokens (
+token VARCHAR(64) PRIMARY KEY NOT NULL,
+gclid VARCHAR(256) UNIQUE DEFAULT NULL,
+user_id INT DEFAULT NULL,
+FOREIGN KEY (user_id) REFERENCES users(id),
+utm VARCHAR(256) DEFAULT NULL,
+site_url VARCHAR(256) DEFAULT NULL,
+is_sent BOOLEAN NOT NULL DEFAULT FALSE,
+updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+created_at TIMESTAMP NOT NULL DEFAULT NOW()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE user_threads (
+id INT PRIMARY KEY AUTO_INCREMENT,
+thread_id INT UNIQUE,
+user_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `users` ADD INDEX chatid_idx (`chatid`);
+
+ALTER TABLE `tokens` ADD INDEX token_idx (`token`);
+ALTER TABLE `tokens` ADD INDEX user_id_idx (`user_id`);
+
+ALTER TABLE `user_threads` ADD INDEX thread_id_idx (`thread_id`);
+ALTER TABLE `user_threads` ADD INDEX user_id_idx (`user_id`);
