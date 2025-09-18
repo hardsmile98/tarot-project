@@ -47,6 +47,11 @@ class Messages {
         }
       }
 
+      await telegramApi.sendMessage(token, {
+        chatid: user.chatid,
+        message: 'Чтобы получить расклад, напишите своё место рождения и дату рождения!'
+      })
+
       return
     } else {
       const token = await TokenModel.getTokenByUserId(user.id)
