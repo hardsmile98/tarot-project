@@ -1,7 +1,7 @@
 CREATE TABLE users (
 id INT PRIMARY KEY AUTO_INCREMENT,
-firstname VARCHAR(128) SET utf8mb4 COLLATE utf8mb4_bin,
-lastname VARCHAR(128) SET utf8mb4 COLLATE utf8mb4_bin,
+firstname VARCHAR(128),
+lastname VARCHAR(128),
 username VARCHAR(128),
 chatid VARCHAR(32) DEFAULT NULL,
 type VARCHAR(16) NOT NULL DEFAULT('user'),
@@ -34,3 +34,9 @@ ALTER TABLE `tokens` ADD INDEX user_id_idx (`user_id`);
 
 ALTER TABLE `user_threads` ADD INDEX thread_id_idx (`thread_id`);
 ALTER TABLE `user_threads` ADD INDEX user_id_idx (`user_id`);
+
+ALTER TABLE users MODIFY firstname VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE users MODIFY lastname VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

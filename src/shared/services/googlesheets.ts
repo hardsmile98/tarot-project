@@ -19,7 +19,7 @@ class GoogleSheetsService {
     siteUrl: string
   }) {
     try {
-      const formattedDate = formatWithOffset(new Date(), '+03:00')
+      const formattedDate = formatWithOffset(new Date(), '+00:00')
 
       const data = [
         gclid, formattedDate
