@@ -1,6 +1,7 @@
 import { google } from 'googleapis'
 import fs from 'fs'
 import { config, logger } from '../libs'
+import { formatWithOffset } from '../utils'
 
 const credentials = JSON.parse(fs.readFileSync('google-sheets.json', 'utf8'))
 
@@ -18,8 +19,10 @@ class GoogleSheetsService {
     siteUrl: string
   }) {
     try {
+      const formattedDate = formatWithOffset(new Date(), '+03:00')
+
       const data = [
-        gclid, new Date().toISOString()
+        gclid, formattedDate
       ]
 
       const sheets = google.sheets({ version: 'v4', auth })
