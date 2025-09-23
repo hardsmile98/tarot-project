@@ -6,6 +6,12 @@ import {
   UserThreadModel,
   type User
 } from '@/shared'
+import fs from 'fs'
+import path from 'path'
+
+const videoPath = path.resolve(process.cwd(), 'assets', 'video.mp4')
+
+const timeoutSeconds = 15
 
 const START_COMMAND = '/start'
 
@@ -47,10 +53,12 @@ class Messages {
         }
       }
 
-      await telegramApi.sendMessage(token, {
-        chatid: user.chatid,
-        message: 'Чтобы получить расклад, напишите своё место рождения и дату рождения!'
-      })
+      setTimeout(() => {
+        void telegramApi.sendVideoNote(token, {
+          chatid: user.chatid,
+          videoNote: fs.createReadStream(videoPath)
+        })
+      }, timeoutSeconds * 1000)
 
       return
     } else {

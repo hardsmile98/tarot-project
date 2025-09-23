@@ -5,23 +5,25 @@ import { request } from '../request'
 const sendTelegramRequest = async ({
   url,
   token,
-  data
+  data,
+  isFormData = false
 }: {
   url: string
   token: string
   data: any
+  isFormData?: boolean
 }): Promise<any> => {
   try {
     const result = await request({
       url: `${TELEGRAM_API_URL}/bot${token}/${url}`,
+      method: 'post',
       data,
-      proxyEnabled: false
+      isFormData
     })
 
     return result.data
   } catch (e) {
     logger.error('Error in sendTelegramRequest:', e)
-
     return null
   }
 }
@@ -90,6 +92,24 @@ const telegramApi = {
       url: 'sendMediaGroup',
       token,
       data: body
+    })
+  },
+
+  sendVideoNote: async (token: string, data: {
+    chatid: string
+    videoNote: any
+    duration?: number
+    length?: number
+    message_thread_id?: number
+  }) => {
+    return await sendTelegramRequest({
+      url: 'sendVideoNote',
+      token,
+      data: {
+        chat_id: data.chatid,
+        video_note: data.videoNote
+      },
+      isFormData: true
     })
   },
 
